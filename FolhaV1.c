@@ -1,5 +1,59 @@
 #include <stdio.h>
 
+void versao1(float salario) {
+    float reservaTrabalhador, reservaImpostos, descontoIRPF, descontoINSS;
+
+    reservaTrabalhador = salario * 0.08;
+    reservaImpostos = salario * 0.03;
+
+    if (salario <= 2112.00) {
+        descontoIRPF = 0.0;
+    } else if (salario <= 2826.65) {
+        descontoIRPF = (salario - 2112.00) * 0.075;
+    } else if (salario <= 3751.05) {
+        descontoIRPF = (salario - 2826.65) * 0.15 + (714.0 * 0.075);
+    } else if (salario <= 4664.68) {
+        descontoIRPF = (salario - 3751.05) * 0.225 + (714.0 * 0.075) + (924.35 * 0.15);
+    } else {
+        descontoIRPF = (salario - 4664.68) * 0.275 + (714.0 * 0.075) + (924.35 * 0.15) + (913.63 * 0.225);
+    }
+
+    descontoINSS = salario * 0.075;
+
+    printf("Reserva mensal para pagamentos dos direitos do trabalhador: R$ %.2f\n", reservaTrabalhador);
+    printf("Reserva mensal para pagamentos de impostos e multas: R$ %.2f\n", reservaImpostos);
+    printf("Desconto do IRPF: R$ %.2f\n", descontoIRPF);
+    printf("Desconto do INSS: R$ %.2f\n", descontoINSS);
+}
+
+void versao2(float salario) {
+    float reservaTrabalhador, reservaImpostos, descontoIRPF, descontoINSS, impostoSistemaS;
+
+    reservaTrabalhador = salario * 0.08;
+    reservaImpostos = salario * 0.03;
+
+    if (salario <= 2112.00) {
+        descontoIRPF = 0.0;
+    } else if (salario <= 2826.65) {
+        descontoIRPF = (salario - 2112.00) * 0.075;
+    } else if (salario <= 3751.05) {
+        descontoIRPF = (salario - 2826.65) * 0.15 + (714.0 * 0.075);
+    } else if (salario <= 4664.68) {
+        descontoIRPF = (salario - 3751.05) * 0.225 + (714.0 * 0.075) + (924.35 * 0.15);
+    } else {
+        descontoIRPF = (salario - 4664.68) * 0.275 + (714.0 * 0.075) + (924.35 * 0.15) + (913.63 * 0.225);
+    }
+
+    descontoINSS = salario * 0.075;
+    impostoSistemaS = salario * 0.02;
+
+    printf("Reserva mensal para pagamentos dos direitos do trabalhador: R$ %.2f\n", reservaTrabalhador);
+    printf("Reserva mensal para pagamentos de impostos e multas: R$ %.2f\n", reservaImpostos);
+    printf("Desconto do IRPF: R$ %.2f\n", descontoIRPF);
+    printf("Desconto do INSS: R$ %.2f\n", descontoINSS);
+    printf("Impostos e taxas pagos pelo Sistema S: R$ %.2f\n", impostoSistemaS);
+}
+
 int main() {
     float S1, S2, S4, T, Bruto, InRenda = 0.024, INSS = 0.015, Min = 2424.00, Imposto1, Imposto2;
     int Anos;
@@ -58,13 +112,28 @@ int main() {
             Bruto = S2 + T;
             Imposto1 = (Bruto - Min) * InRenda;
             Imposto2 = Bruto * INSS;
-            printf("O seu imposto de renda é R$ %.2f e o INSS é R$ %.2f. Seu salário líquido é R$ %.2f\n", Imposto1, Imposto2, Bruto - (Imposto1 + Imposto2));
+            printf("O seu imposto de renda é: R$ %.2f e o INSS é: R$ %.2f, seu salário líquido é: R$ %.2f\n", Imposto1, Imposto2, Bruto - (Imposto1 + Imposto2));
         } else {
             Bruto = S2 + T;
-            Imposto2 = Bruto * INSS;
-            printf("Você está livre de imposto de renda, porém seu INSS é R$ %.2f. Logo, seu salário líquido é R$ %.2f\n", Imposto2, (Bruto - Imposto2));
+            printf("Você está livre de imposto de renda, porém seu INSS é: R$ %.2f, logo seu salário líquido é: R$ %.2f\n", Imposto2, (Bruto - Imposto2));
+        }
+
+        printf("\nEscolha a versão da folha de pagamento:\n");
+        printf("1. Versão 1\n");
+        printf("2. Versão 2\n");
+        printf("Digite sua escolha (1 ou 2): ");
+        int escolha;
+        scanf("%d", &escolha);
+
+        if (escolha == 1) {
+            versao1(Bruto);
+        } else if (escolha == 2) {
+            versao2(Bruto);
+        } else {
+            printf("Escolha inválida.\n");
         }
     }
 
     return 0;
 }
+
