@@ -1,68 +1,43 @@
 #include <stdio.h>
 
 int main() {
-    float S1, S2, S4, T, Bruto, InRenda = 0.024, INSS = 0.015, Min = 2424.00, Imposto1, Imposto2;
-    int Anos;
-    char op, op1;
+    float Bruto, imposto1, imposto2;
 
-    printf("Me diga seu salário: ");
-    scanf("%f", &S1);
+    printf("Me diga seu salário bruto: ");
+    scanf("%f", &Bruto);
 
-    if (S1 < 1400.00) {
-        printf("O valor é inválido.\n");
+    if (Bruto < 1400.0) {
+        printf("Operador inválido\n");
     } else {
-        printf("Qual sua formação? 1 - Doutor, 2 - Mestre, 3 - Especialista: ");
-        scanf(" %c", &op);
-
-        switch (op) {
-            case '1':
-                S2 = S1 + (S1 * 0.60);
-                printf("O salário + a formação é: R$ %.2f\n", S2);
-                break;
-            case '2':
-                S2 = S1 + (S1 * 0.40);
-                printf("O salário + a formação é: R$ %.2f\n", S2);
-                break;
-            case '3':
-                S2 = S1 + (S1 * 0.20);
-                printf("O salário + a formação é: R$ %.2f\n", S2);
-                break;
-            default:
-                printf("Operador inválido.\n");
-                return 1;
-        }
-
-        printf("Me fale o seu tempo de contribuição (em anos): ");
-        scanf("%d", &Anos);
-
-        T = S2 * (Anos * 0.01);
-        printf("O valor do seu salário com o tempo de contribuição é: R$ %.2f\n", (S2 + T));
-
-        printf("Você tem direito ao Auxílio? (S/N): ");
-        scanf(" %c", &op1);
-
-        switch (op1) {
-            case 'S':
-                S4 = S2 + (T + 440);
-                printf("O valor do Auxílio é 440 + o salário: R$ %.2f\n", S4);
-                break;
-            case 'N':
-                printf("O valor do Salário bruto é: R$ %.2f\n", (S2 + T));
-                break;
-            default:
-                printf("Operador inválido.\n");
-                return 1;
-        }
-
-        if (S2 + T > Min) {
-            Bruto = S2 + T;
-            Imposto1 = (Bruto - Min) * InRenda;
-            Imposto2 = Bruto * INSS;
-            printf("O seu imposto de renda é R$ %.2f e o INSS é R$ %.2f. Seu salário líquido é R$ %.2f\n", Imposto1, Imposto2, Bruto - (Imposto1 + Imposto2));
+        if (Bruto <= 1302.00) {
+            imposto2 = Bruto * 0.075;
+        } else if (Bruto <= 2571.29) {
+            imposto2 = (1302.00 * 0.075) + ((Bruto - 1302.00) * 0.09);
+        } else if (Bruto <= 3856.94) {
+            imposto2 = (1302.00 * 0.075) + (1269.29 * 0.09) + ((Bruto - 2571.29) * 0.12);
+        } else if (Bruto <= 7507.49) {
+            imposto2 = (1302.00 * 0.075) + (1269.29 * 0.09) + (1285.65 * 0.12) + ((Bruto - 3856.94) * 0.14);
         } else {
-            Bruto = S2 + T;
-            Imposto2 = Bruto * INSS;
-            printf("Você está livre de imposto de renda, porém seu INSS é R$ %.2f. Logo, seu salário líquido é R$ %.2f\n", Imposto2, (Bruto - Imposto2));
+            imposto2 = (1302.00 * 0.075) + (1269.29 * 0.09) + (1285.65 * 0.12) + (3650.55 * 0.14);
+        }
+
+        printf("Desconto do Imposto 2: R$ %.2f\n", imposto2);
+
+        if (Bruto <= 2112.00) {
+            printf("Imposto zero\n");
+            imposto1 = 0.0;
+        } else if (Bruto <= 2826.65) {
+            imposto1 = (Bruto - 2112.00) * 0.075;
+            printf("Taxa de 7.5%% de Imposto 1: R$ %.2f\n", imposto1);
+        } else if (Bruto <= 3751.05) {
+            imposto1 = (Bruto - 2826.65) * 0.15 + (714.0 * 0.075);
+            printf("Taxa de 15%% de Imposto 1: R$ %.2f\n", imposto1);
+        } else if (Bruto <= 4664.68) {
+            imposto1 = (Bruto - 3751.05) * 0.225 + (714.0 * 0.075) + (924.35 * 0.15);
+            printf("Taxa de 22.5%% de Imposto 1: R$ %.2f\n", imposto1);
+        } else {
+            imposto1 = (Bruto - 4664.68) * 0.275 + (714.0 * 0.075) + (924.35 * 0.15) + (913.63 * 0.225);
+            printf("Taxa de 27.5%% de Imposto 1: R$ %.2f\n", imposto1);
         }
     }
 
